@@ -16,7 +16,7 @@
 }
 
 .App-header {
-  background-color: #4a90e2;
+  background-color: #002855; /* Abbott blue */
   padding: 20px;
   color: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -27,18 +27,150 @@
   font-size: 2rem;
 }
 
+.subtitle {
+  margin-top: 10px;
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.doctor-info {
+  text-align: right;
+}
+
+.doctor-info span {
+  display: block;
+  margin: 5px 0;
+}
+
 .App-main {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
 }
 
-.add-medication {
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+}
+
+.login-form {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.search-filters {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 200px;
+  padding: 10px;
+  border: 2px solid #002855;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.filter-select {
+  padding: 10px;
+  border: 2px solid #002855;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+}
+
+.medicines-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.medicine-card {
   background: white;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 30px;
+  text-align: left;
+  position: relative;
+  border: 1px solid #e0e0e0;
+}
+
+.abbott-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #002855;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.medicine-card h3 {
+  margin-top: 0;
+  color: #002855;
+  padding-right: 80px;
+}
+
+.medicine-card .category {
+  color: #666;
+  font-style: italic;
+}
+
+.medicine-card .description {
+  margin: 15px 0;
+  color: #333;
+}
+
+.medicine-details {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.medicine-details h4 {
+  color: #002855;
+  margin: 10px 0 5px;
+}
+
+.medicine-details ul {
+  padding-left: 20px;
+  margin: 5px 0;
+}
+
+.medicine-details li {
+  margin: 3px 0;
+  color: #555;
+}
+
+.dosage {
+  font-weight: bold;
+  color: #002855;
+}
+
+.price {
+  font-weight: bold;
+  color: #28a745;
+  margin-top: 10px;
 }
 
 .form-group {
@@ -46,14 +178,14 @@
   text-align: left;
 }
 
-label {
+.form-group label {
   display: block;
   margin-bottom: 5px;
   color: #333;
   font-weight: 500;
 }
 
-input, select, textarea {
+.form-group input {
   width: 100%;
   padding: 8px;
   border: 1px solid #ddd;
@@ -61,13 +193,8 @@ input, select, textarea {
   font-size: 16px;
 }
 
-textarea {
-  min-height: 100px;
-  resize: vertical;
-}
-
 button {
-  background-color: #4a90e2;
+  background-color: #002855;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -75,52 +202,31 @@ button {
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s;
+  width: 100%;
 }
 
 button:hover {
-  background-color: #357abd;
-}
-
-.medications-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
-}
-
-.medication-card {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  text-align: left;
-}
-
-.medication-card h3 {
-  margin-top: 0;
-  color: #4a90e2;
-}
-
-.medication-card p {
-  margin: 8px 0;
-}
-
-.delete-btn {
-  background-color: #e74c3c;
-  margin-top: 15px;
-}
-
-.delete-btn:hover {
-  background-color: #c0392b;
+  background-color: #001f3f;
 }
 
 @media (max-width: 768px) {
-  .App-main {
-    padding: 10px;
+  .header-content {
+    flex-direction: column;
+    text-align: center;
   }
-  
-  .medications-grid {
-    grid-template-columns: 1fr;
+
+  .doctor-info {
+    text-align: center;
+    margin-top: 15px;
+  }
+
+  .search-filters {
+    flex-direction: column;
+  }
+
+  .search-input,
+  .filter-select {
+    width: 100%;
   }
 }
 
@@ -130,5 +236,245 @@ button:hover {
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+.home-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.tiles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.tile {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  border: 1px solid #e0e0e0;
+}
+
+.tile:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.tile h2 {
+  color: #002855;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.tile p {
+  color: #666;
+  margin: 0;
+}
+
+.back-button {
+  background-color: transparent;
+  border: 2px solid white;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 20px;
+  width: auto;
+}
+
+.back-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.toolkit-container {
+  background: white;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-top: 40px;
+}
+
+.toolkit-container h2 {
+  color: #002855;
+  margin-bottom: 20px;
+}
+
+.toolkit-container p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .tiles-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .header-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .back-button {
+    margin: 10px 0 0 0;
+  }
+}
+
+.doctors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 30px 0;
+}
+
+.doctor-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.doctor-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.doctor-card.selected {
+  border-color: #002855;
+  background-color: #f8f9fa;
+}
+
+.doctor-card h3 {
+  color: #002855;
+  margin: 0 0 10px 0;
+}
+
+.doctor-card .department {
+  color: #666;
+  font-weight: 500;
+  margin: 5px 0;
+}
+
+.doctor-card .specialization {
+  color: #888;
+  font-style: italic;
+  margin: 5px 0 0 0;
+}
+
+.recommended-medicines {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 1px solid #eee;
+}
+
+.recommended-medicines h3 {
+  color: #002855;
+  margin-bottom: 20px;
+}
+
+.toolkit-container {
+  background: white;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-top: 40px;
+}
+
+.toolkit-container h2 {
+  color: #002855;
+  margin-bottom: 10px;
+}
+
+.toolkit-container > p {
+  color: #666;
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+}
+
+@media (max-width: 768px) {
+  .doctors-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .toolkit-container {
+    padding: 20px;
+  }
+}
+
+.departments-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin: 30px 0;
+}
+
+.department-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 2px solid #002855;
+}
+
+.department-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.department-card h3 {
+  color: #002855;
+  margin: 0 0 10px 0;
+}
+
+.department-card .description {
+  color: #666;
+  margin: 10px 0;
+  font-style: italic;
+}
+
+.department-card .doctors-list {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.department-card .doctors-list h4 {
+  color: #002855;
+  margin: 0 0 10px 0;
+}
+
+.department-card .doctors-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.department-card .doctors-list li {
+  color: #666;
+  padding: 5px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.department-card .doctors-list li:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 768px) {
+  .departments-grid {
+    grid-template-columns: 1fr;
   }
 }
