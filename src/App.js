@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
 
 // Abbott Medicines Database
@@ -13,7 +13,8 @@ const medicineDatabase = [
     sideEffects: ['Rare: Skin rash'],
     dosage: '500mg',
     price: 15.50,
-    abbottExclusive: true
+    abbottExclusive: true,
+    image: 'https://www.abbott.co.in/content/dam/abbott/products/IN/Paracetamol.png' // sample/representative
   },
   {
     id: 2,
@@ -25,7 +26,8 @@ const medicineDatabase = [
     sideEffects: ['Common: Diarrhea', 'Rare: Allergic reactions'],
     dosage: '500mg',
     price: 45.75,
-    abbottExclusive: true
+    abbottExclusive: true,
+    image: 'https://www.abbott.co.in/content/dam/abbott/products/IN/Amoxycillin.png' // sample/representative
   },
   {
     id: 3,
@@ -37,7 +39,8 @@ const medicineDatabase = [
     sideEffects: ['Rare: Hypercalcemia'],
     dosage: '1000 IU',
     price: 25.25,
-    abbottExclusive: true
+    abbottExclusive: true,
+    image: 'https://www.abbott.co.in/content/dam/abbott/products/IN/VitaminD3.png' // sample/representative
   },
   {
     id: 4,
@@ -49,7 +52,8 @@ const medicineDatabase = [
     sideEffects: ['Common: Headache', 'Rare: Vitamin B12 deficiency'],
     dosage: '20mg',
     price: 35.00,
-    abbottExclusive: true
+    abbottExclusive: true,
+    image: 'https://www.abbott.co.in/content/dam/abbott/products/IN/Omeprazole.png' // sample/representative
   },
   {
     id: 5,
@@ -61,7 +65,8 @@ const medicineDatabase = [
     sideEffects: ['Common: Muscle pain', 'Rare: Liver problems'],
     dosage: '10mg',
     price: 55.50,
-    abbottExclusive: true
+    abbottExclusive: true,
+    image: 'https://www.abbott.co.in/content/dam/abbott/products/IN/Atorvastatin.png' // sample/representative
   }
 ];
 
@@ -159,25 +164,41 @@ const departmentsDatabase = [
     id: 1,
     name: 'Chest Department',
     description: 'Specialized care for respiratory conditions',
-    doctors: ['Dr. Rajesh Sharma', 'Dr. Priya Patel']
+    doctors: ['Dr. Rajesh Sharma', 'Dr. Priya Patel'],
+    images: [
+      process.env.PUBLIC_URL + '/images/1.jpg',
+      process.env.PUBLIC_URL + '/images/2.jpg'
+    ]
   },
   {
     id: 2,
     name: 'ENT Department',
     description: 'Ear, Nose & Throat specialists',
-    doctors: ['Dr. Rohit Joshi']
+    doctors: ['Dr. Rohit Joshi'],
+    images: [
+      process.env.PUBLIC_URL + '/images/1.jpg',
+      process.env.PUBLIC_URL + '/images/2.jpg'
+    ]
   },
   {
     id: 3,
     name: 'Pediatrics Department',
     description: 'Child healthcare specialists',
-    doctors: ['Dr. Anjali Singh']
+    doctors: ['Dr. Anjali Singh'],
+    images: [
+      process.env.PUBLIC_URL + '/images/1.jpg',
+      process.env.PUBLIC_URL + '/images/2.jpg'
+    ]
   },
   {
     id: 4,
     name: 'Consultant Physician',
     description: 'General medical consultation',
-    doctors: ['Dr. Amit Kumar', 'Dr. Meera Gupta']
+    doctors: ['Dr. Amit Kumar', 'Dr. Meera Gupta'],
+    images: [
+      process.env.PUBLIC_URL + '/images/1.jpg',
+      process.env.PUBLIC_URL + '/images/2.jpg'
+    ]
   }
 ];
 
@@ -186,6 +207,9 @@ function App() {
   const [doctorInfo, setDoctorInfo] = useState(null);
   const [currentPage, setCurrentPage] = useState('home'); // 'home', 'medicine-recommendation', 'toolkit'
   const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [selectedDepartment, setSelectedDepartment] = useState(null);
+  const [slideIndex, setSlideIndex] = useState(0);
+  const slideshowRef = useRef(null);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -204,6 +228,41 @@ function App() {
       alert('Invalid credentials. Use License Number: test and Password: test');
     }
   };
+
+  // Slideshow navigation handlers
+  const handlePrevSlide = () => {
+    if (selectedDepartment && selectedDepartment.images && selectedDepartment.images.length > 0) {
+      setSlideIndex((prev) => (prev === 0 ? selectedDepartment.images.length - 1 : prev - 1));
+    }
+  };
+  const handleNextSlide = () => {
+    if (selectedDepartment && selectedDepartment.images && selectedDepartment.images.length > 0) {
+      if (slideIndex === selectedDepartment.images.length - 1) {
+        setSelectedDepartment(null); // Close slideshow
+      } else {
+        setSlideIndex((prev) => prev + 1);
+      }
+    }
+  };
+
+  // Reset slideIndex to 0 if selectedDepartment changes
+  useEffect(() => {
+    setSlideIndex(0);
+  }, [selectedDepartment]);
+
+  // Robust fullscreen effect: only call when ref is set and department is selected
+  useEffect(() => {
+    if (
+      selectedDepartment &&
+      selectedDepartment.images &&
+      selectedDepartment.images.length > 0 &&
+      slideshowRef.current
+    ) {
+      if (document.fullscreenElement !== slideshowRef.current) {
+        slideshowRef.current.requestFullscreen?.();
+      }
+    }
+  }, [selectedDepartment, slideshowRef.current]);
 
   if (!isLoggedIn) {
     return (
@@ -269,7 +328,7 @@ function App() {
               <span>Welcome, {doctorInfo.name}</span>
               <span>{doctorInfo.specialization}</span>
             </div>
-            <button className="back-button" onClick={() => setCurrentPage('home')}>Back to Home</button>
+            <button className="back-button" onClick={() => { setCurrentPage('home'); setSelectedDepartment(null); setSlideIndex(0); }}>Back to Home</button>
           </div>
         </header>
 
@@ -277,10 +336,9 @@ function App() {
           <div className="toolkit-container">
             <h2>Department Directory</h2>
             <p>Select a department to view its specialists</p>
-            
             <div className="departments-grid">
               {departmentsDatabase.map(department => (
-                <div key={department.id} className="department-card">
+                <div key={department.id} className="department-card" onClick={() => { setSelectedDepartment(department); setSlideIndex(0); }}>
                   <h3>{department.name}</h3>
                   <p className="description">{department.description}</p>
                   <div className="doctors-list">
@@ -294,6 +352,26 @@ function App() {
                 </div>
               ))}
             </div>
+            {/* Slideshow for all departments using department images */}
+            {selectedDepartment && selectedDepartment.images && selectedDepartment.images.length > 0 && (
+              <div ref={slideshowRef} style={{ marginTop: 30, background: '#000', borderRadius: 8 }}>
+                <h3 style={{ color: '#fff' }}>{selectedDepartment.name} - Slideshow</h3>
+                <div style={{ position: 'relative', width: '100%', maxWidth: 500, margin: '0 auto' }}>
+                  {slideIndex >= 0 && slideIndex < selectedDepartment.images.length && (
+                    <img
+                      src={selectedDepartment.images[slideIndex]}
+                      alt={`Slide ${slideIndex + 1}`}
+                      style={{ width: '100%', borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
+                    />
+                  )}
+                  <button onClick={handlePrevSlide} style={{ position: 'absolute', top: '50%', left: 0, transform: 'translateY(-50%)', background: '#002855', color: 'white', border: 'none', borderRadius: '50%', width: 36, height: 36, fontSize: 18, cursor: 'pointer' }}>&lt;</button>
+                  <button onClick={handleNextSlide} style={{ position: 'absolute', top: '50%', right: 0, transform: 'translateY(-50%)', background: '#002855', color: 'white', border: 'none', borderRadius: '50%', width: 36, height: 36, fontSize: 18, cursor: 'pointer' }}>&gt;</button>
+                  <div style={{ textAlign: 'center', marginTop: 10, color: '#fff' }}>
+                    {slideIndex + 1} / {selectedDepartment.images.length}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </main>
       </div>
