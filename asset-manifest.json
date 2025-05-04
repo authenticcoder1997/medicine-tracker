@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/medicine-tracker/static/css/main.42e62bff.css",
+    "main.js": "/medicine-tracker/static/js/main.ebe8ba5d.js",
+    "static/js/453.ebd7700b.chunk.js": "/medicine-tracker/static/js/453.ebd7700b.chunk.js",
+    "index.html": "/medicine-tracker/index.html",
+    "main.42e62bff.css.map": "/medicine-tracker/static/css/main.42e62bff.css.map",
+    "main.ebe8ba5d.js.map": "/medicine-tracker/static/js/main.ebe8ba5d.js.map",
+    "453.ebd7700b.chunk.js.map": "/medicine-tracker/static/js/453.ebd7700b.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.42e62bff.css",
+    "static/js/main.ebe8ba5d.js"
+  ]
+}
